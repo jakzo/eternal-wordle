@@ -149,6 +149,7 @@
     outline: none;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   .key button.used {

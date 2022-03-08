@@ -106,12 +106,15 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin: 16px;
   }
 
   .board {
     margin: 16px;
     border: 2px solid #666;
     display: inline-block;
+    box-sizing: border-box;
+    max-width: 100%;
   }
   .board:hover {
     box-shadow: 0px 0px 16px #000;

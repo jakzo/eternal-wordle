@@ -56,7 +56,7 @@
     <div><input type="submit" value="Play!" /></div>
   </form>
 {:else}
-  <header>
+  <header class="header">
     {#if zen}
       <span class="zen">Zen mode 🧘</span>
     {:else}
@@ -80,6 +80,13 @@
   :root {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+
+  .header {
+    position: sticky;
+    top: 0;
+    background: rgb(30, 30, 50, 0.8);
+    padding: 2px 4px;
   }
 
   .game-over {
