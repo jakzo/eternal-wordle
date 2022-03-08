@@ -13,6 +13,18 @@
 </script>
 
 {#if !isStarted}
+  <article>
+    <h2>How to play</h2>
+    <p>
+      It's <a href="https://www.nytimes.com/games/wordle/index.html">Wordle</a>
+      but with multiple words being guessed simultaneously (like
+      <a href="https://zaratustra.itch.io/dordle">Dordle</a>,
+      <a href="https://quordle.com">Quordle</a>
+      or <a href="https://octordle.com/">Octordle</a>) but also when you guess a
+      word, it is replaced with a new one. The game keeps going until you fail
+      to guess a word.
+    </p>
+  </article>
   <form
     on:submit|preventDefault={() => {
       isStarted = true;
