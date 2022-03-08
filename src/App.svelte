@@ -1,11 +1,13 @@
 <script lang="ts">
   import Game from "./lib/Game.svelte";
+  import { randStr } from "./utils";
 
   let isStarted = false;
 
   let wordCount = 4;
   let wordLen = 5;
   let maxGuesses = wordCount + 5;
+  let seed = randStr(5);
   let zen = false;
 
   let score = 0;
@@ -53,6 +55,10 @@
       <label for="zen">Zen mode (no losing):</label>
       <input type="checkbox" id="zen" bind:value={zen} />
     </div>
+    <div>
+      <label for="seed">Word seed (determines order of words):</label>
+      <input type="text" id="seed" bind:value={seed} />
+    </div>
     <div><input type="submit" value="Play!" /></div>
   </form>
 {:else}
@@ -73,7 +79,15 @@
       }}>End game</button
     >
   </header>
-  <Game {wordCount} {wordLen} {maxGuesses} {zen} bind:score bind:isGameOver />
+  <Game
+    {wordCount}
+    {wordLen}
+    {maxGuesses}
+    {seed}
+    {zen}
+    bind:score
+    bind:isGameOver
+  />
 {/if}
 
 <style>

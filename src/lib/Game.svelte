@@ -4,6 +4,7 @@
   import { ALL_WORDS, COMMON_WORDS } from "../words";
   import { CODE_BACKSPACE, CODE_ENTER } from "../constants";
   import { calculateResults, GuessResult } from "../results";
+  import { randStr, seedrandom } from "../utils";
   import Boards from "./Boards.svelte";
   import Keyboard from "./Keyboard.svelte";
 
@@ -12,23 +13,27 @@
   export let maxGuesses: number = wordCount + 5;
   export let score: number = 0;
   export let isGameOver: boolean = false;
+  export let seed: string = randStr(5);
   export let zen: boolean = false;
 
   let guesses: string[] = [];
   let currentGuess = "";
   let focusedBoard: number | undefined;
 
-  const wordPool = COMMON_WORDS.filter((word) => word.length === wordLen);
-  let wordPoolIdx = 0;
-  while (wordPoolIdx < wordCount) {
+  let rand = seedrandom(seed);
+  const pickNextWord = () => {
     const idx =
-      wordPoolIdx + Math.floor(Math.random() * (wordPool.length - wordPoolIdx));
+      wordPoolIdx + Math.floor(rand() * (wordPool.length - wordPoolIdx));
     [wordPool[wordPoolIdx], wordPool[idx]] = [
       wordPool[idx],
       wordPool[wordPoolIdx],
     ];
-    wordPoolIdx++;
-  }
+    return wordPool[wordPoolIdx++];
+  };
+
+  const wordPool = COMMON_WORDS.filter((word) => word.length === wordLen);
+  let wordPoolIdx = 0;
+  while (wordPoolIdx < wordCount) pickNextWord();
   const words = wordPool
     .slice(0, wordCount)
     .map<[string, number]>((word) => [word, 0]);
@@ -41,15 +46,7 @@
         (result) => result === GuessResult.CORRECT
       )
     ) {
-      const idx =
-        wordPoolIdx +
-        Math.floor(Math.random() * (wordPool.length - wordPoolIdx));
-      [wordPool[wordPoolIdx], wordPool[idx]] = [
-        wordPool[idx],
-        wordPool[wordPoolIdx],
-      ];
-      words[i] = [wordPool[wordPoolIdx], guesses.length];
-      wordPoolIdx++;
+      words[i] = [pickNextWord(), guesses.length];
       score += maxGuesses - (guesses.length - 1 - ts);
     }
 
