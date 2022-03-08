@@ -1,6 +1,8 @@
 {
   "name": "@jakzo/eternal-wordle",
+  "description": "Yet another Wordle clone.",
   "version": "0.0.2",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "test": "prettier --check .",
