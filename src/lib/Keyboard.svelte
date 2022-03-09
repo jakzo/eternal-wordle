@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { text } from "svelte/internal";
   import { calculateResults, GuessResult } from "../results";
 
   export let onKeyPress: (keyCode: number) => void;
@@ -124,6 +123,7 @@
 
   .row {
     text-align: center;
+    width: 100%;
   }
 
   .key {

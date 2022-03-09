@@ -403,6 +403,11 @@ is-number@^7.0.0:
   resolved "https://packages.atlassian.com/api/npm/npm-remote/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
   integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
 
+js-confetti@^0.10.2:
+  version "0.10.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/js-confetti/-/js-confetti-0.10.2.tgz#f30aab309735284d5694845f24a6a3a3d4221984"
+  integrity sha512-/ppeGV3sOJ/DDH43ABbqe8V/9Fx5TUNkywPlXr9YK9OK6++olMtRP/yRdXftl49iTIAAdoNopkgAy3SLOgSE+A==
+
 kleur@^4.1.4:
   version "4.1.4"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/kleur/-/kleur-4.1.4.tgz#8c202987d7e577766d039a8cd461934c01cda04d"
@@ -650,11 +655,6 @@ svelte-check@^2.2.7:
     source-map "^0.7.3"
     svelte-preprocess "^4.0.0"
     typescript "*"
-
-svelte-confetti-explosion@^0.2.0:
-  version "0.2.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/svelte-confetti-explosion/-/svelte-confetti-explosion-0.2.0.tgz#57d70e2e69c7a72d548de6de41ff52137d94e3b3"
-  integrity sha512-quwQzRWtyf0MZR113PCIAx8zi3NExkofrDab5YG2pwjIxvqeNEJ9N0OZl2vCszFbisw/nPDeOT7m8vEtzYbdFg==
 
 svelte-hmr@^0.14.9:
   version "0.14.9"

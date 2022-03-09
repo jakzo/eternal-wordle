@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import JSConfetti from "js-confetti";
 
   import { ALL_WORDS, COMMON_WORDS } from "../words";
   import { CODE_BACKSPACE, CODE_ENTER } from "../constants";
@@ -21,6 +22,8 @@
 
   let currentGuess = "";
   let focusedBoard: number | undefined;
+
+  const confetti = new JSConfetti();
 
   let rand = seedrandom(seed);
   const pickNextWord = () => {
@@ -51,6 +54,7 @@
       ) {
         words[i] = [pickNextWord(), guesses.length];
         score += maxGuesses - (guesses.length - 1 - ts);
+        confetti.addConfetti()
       }
 
       if (!zen && words.some(([, ts]) => guesses.length - ts >= maxGuesses)) {

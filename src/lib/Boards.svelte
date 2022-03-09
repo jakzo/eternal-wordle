@@ -1,7 +1,5 @@
 <script lang="ts">
-  import { onMount, tick } from "svelte";
   import { fly } from "svelte/transition";
-  import { ConfettiExplosion } from "svelte-confetti-explosion";
   import { wordSolved } from "../transitions";
   import { GuessResult, calculateResults } from "../results";
   import { ALL_WORDS } from "../words";
@@ -14,17 +12,6 @@
   export let focusedBoard: number | undefined = undefined;
   export let showWords: boolean = false;
   export let showGuessesLeft: boolean = true;
-
-  let confettiPos: [number, number] | undefined;
-  const blastConfetti = async () => {
-    confettiPos = undefined;
-    await tick();
-    confettiPos = [
-      window.innerWidth / 4 + (Math.random() * window.innerWidth) / 2,
-      window.innerHeight / 4 + (Math.random() * window.innerHeight) / 2,
-    ];
-  };
-  $: if (words) blastConfetti();
 
   let wordGuesses: [string, GuessResult[] | undefined][][];
   $: wordGuesses = words.map(([word, ts]) => [
@@ -70,16 +57,6 @@
 </script>
 
 <div class="boards">
-  {#if confettiPos}
-    <div class="confetti">
-      <div style:left="{confettiPos[0]}px" style:top="{confettiPos[1]}px">
-        <ConfettiExplosion
-          stageWidth={window.innerWidth}
-          stageHeight={window.innerHeight}
-        />
-      </div>
-    </div>
-  {/if}
   {#each words as [word, ts], i (word)}
     <div
       class="board"
@@ -189,21 +166,5 @@
 
   .word {
     color: #c33;
-  }
-
-  .confetti {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-  }
-  .confetti > div {
-    position: absolute;
   }
 </style>
