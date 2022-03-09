@@ -153,6 +153,7 @@
     overflow: hidden;
     transition: transform ease-in-out 50ms;
     padding: 1px 0 0 0;
+    position: relative;
   }
   .key button:hover {
     transform: translateY(-2px);
@@ -174,6 +175,11 @@
     flex: 1;
     display: flex;
     width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
   }
 
   .correct,
