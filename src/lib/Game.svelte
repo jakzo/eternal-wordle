@@ -56,10 +56,10 @@
         score += maxGuesses - (guesses.length - 1 - ts);
         confetti.addConfetti();
       }
+    }
 
-      if (!zen && words.some(([, ts]) => guesses.length - ts >= maxGuesses)) {
-        isGameOver = true;
-      }
+    if (!zen && words.some(([, ts]) => guesses.length - ts >= maxGuesses)) {
+      isGameOver = true;
     }
   };
 
