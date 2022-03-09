@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import { ALL_WORDS, COMMON_WORDS } from "../words";
-  import { AUTOSAVE_KEY, CODE_BACKSPACE, CODE_ENTER } from "../constants";
+  import { CODE_BACKSPACE, CODE_ENTER } from "../constants";
   import { calculateResults, GuessResult } from "../results";
   import { randStr, seedrandom } from "../utils";
   import Boards from "./Boards.svelte";
@@ -59,13 +59,15 @@
     }
   };
 
-  if (loadedGuesses) {
-    for (const guess of loadedGuesses) {
-      guesses.push(guess);
-      processLastGuess(guesses);
+  onMount(() => {
+    if (loadedGuesses) {
+      for (const guess of loadedGuesses) {
+        guesses.push(guess);
+        processLastGuess(guesses);
+      }
+      guesses = guesses;
     }
-    guesses = guesses;
-  }
+  });
 
   $: processLastGuess(guesses);
 
@@ -88,16 +90,9 @@
       currentGuess += String.fromCharCode(keyCode);
     }
   };
-
-  const keydownListener = (evt: KeyboardEvent) => onKeyPress(evt.keyCode);
-  onMount(() => {
-    document.addEventListener("keydown", keydownListener);
-    return () => {
-      document.removeEventListener("keydown", keydownListener);
-    };
-  });
 </script>
 
+<svelte:window on:keydown={(evt) => onKeyPress(evt.keyCode)} />
 <Boards
   {wordLen}
   {words}

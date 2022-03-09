@@ -134,9 +134,10 @@
     justify-content: center;
   }
   .key button {
-    flex: 1;
+    width: 100%;
     background: #777;
-    border: 1px solid #333;
+    border: 1px solid #555;
+    box-shadow: 2px 2px rgb(60 60 80);
     border-radius: 4px;
     cursor: pointer;
     color: #fff;
@@ -150,10 +151,15 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    transition: transform ease-in-out 50ms;
+  }
+  .key button:hover {
+    transform: translateY(-2px);
   }
 
   .key button.used {
     background: #444;
+    border: 1px solid #333;
   }
   .key button.current {
     outline: auto;

@@ -651,6 +651,11 @@ svelte-check@^2.2.7:
     svelte-preprocess "^4.0.0"
     typescript "*"
 
+svelte-confetti-explosion@^0.2.0:
+  version "0.2.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/svelte-confetti-explosion/-/svelte-confetti-explosion-0.2.0.tgz#57d70e2e69c7a72d548de6de41ff52137d94e3b3"
+  integrity sha512-quwQzRWtyf0MZR113PCIAx8zi3NExkofrDab5YG2pwjIxvqeNEJ9N0OZl2vCszFbisw/nPDeOT7m8vEtzYbdFg==
+
 svelte-hmr@^0.14.9:
   version "0.14.9"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/svelte-hmr/-/svelte-hmr-0.14.9.tgz#35f277efc789e1a6230185717347cddb2f8e9833"

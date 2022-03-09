@@ -41,7 +41,10 @@
       };
       localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(autosave));
     }, 100);
-  $: if (!isStarted) localStorage.removeItem(AUTOSAVE_KEY);
+  $: if (!isStarted) {
+    localStorage.removeItem(AUTOSAVE_KEY);
+    guesses = [];
+  }
 </script>
 
 {#if !isStarted}
