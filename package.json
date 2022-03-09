@@ -1,7 +1,7 @@
 {
   "name": "@jakzo/eternal-wordle",
   "description": "Yet another Wordle clone.",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "license": "MIT",
   "type": "module",
   "scripts": {

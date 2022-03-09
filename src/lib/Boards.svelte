@@ -70,7 +70,7 @@
         if (focusedBoard === i) focusedBoard = undefined;
       }}
     >
-      {#if showWords || true}
+      {#if showWords}
         <div>Word: <span class="word">{word}</span></div>
       {/if}
       <div>
