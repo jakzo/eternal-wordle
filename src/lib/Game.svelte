@@ -54,7 +54,7 @@
       ) {
         words[i] = [pickNextWord(), guesses.length];
         score += maxGuesses - (guesses.length - 1 - ts);
-        confetti.addConfetti()
+        confetti.addConfetti();
       }
 
       if (!zen && words.some(([, ts]) => guesses.length - ts >= maxGuesses)) {
