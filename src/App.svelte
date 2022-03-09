@@ -1,7 +1,7 @@
 <script lang="ts">
   import Game from "./lib/Game.svelte";
   import { randStr } from "./utils";
-  import { AUTOSAVE_KEY } from "./constants";
+  import { AUTOSAVE_KEY, HIGHSCORE_KEY } from "./constants";
 
   interface Autosave {
     wordCount: number;
@@ -15,6 +15,10 @@
   const autosave = JSON.parse(
     localStorage.getItem(AUTOSAVE_KEY) ?? null
   ) as Autosave | null;
+  let highScore = JSON.parse(localStorage.getItem(HIGHSCORE_KEY) ?? null) as
+    | number
+    | null;
+  let isNewHighScore = false;
 
   let isStarted = !!autosave;
 
@@ -45,6 +49,13 @@
     localStorage.removeItem(AUTOSAVE_KEY);
     guesses = [];
   }
+
+  $: if (isGameOver && (highScore === null || score > highScore)) {
+    highScore = score;
+    isNewHighScore = true;
+    localStorage.setItem(HIGHSCORE_KEY, JSON.stringify(highScore));
+  }
+  $: if (!isStarted) isNewHighScore = false;
 </script>
 
 {#if !isStarted}
@@ -99,15 +110,8 @@
   </form>
 {:else}
   <header class="header">
-    {#if zen}
-      <span class="zen">Zen mode 🧘</span>
-    {:else}
-      Score: {score}
-      {#if isGameOver}
-        <span class="game-over">Game over!</span>
-      {/if}
-    {/if}
     <button
+      class="end-game"
       on:click={() => {
         isStarted = false;
         score = 0;
@@ -115,6 +119,20 @@
         seed = randStr(5);
       }}>End game</button
     >
+    {#if zen}
+      <span class="zen">Zen mode 🧘</span>
+    {:else}
+      <span>Score: {score}</span>
+      {#if highScore !== null}
+        <span class="high-score">High score: {highScore}</span>
+      {/if}
+      {#if isNewHighScore}
+        <span class="new-high-score">New high score! 🥳</span>
+      {/if}
+      {#if isGameOver}
+        <span class="game-over">Game over!</span>
+      {/if}
+    {/if}
     <span class="seed-box">Seed: <span class="seed">{seed}</span></span>
   </header>
   <Game
@@ -141,6 +159,15 @@
     top: 0;
     background: rgb(30, 30, 50, 0.8);
     padding: 2px 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .header > {
+    margin: 0 16px;
+  }
+
+  .end-game {
+    float: right;
   }
 
   .game-over {
@@ -153,10 +180,16 @@
   }
 
   .seed-box {
-    margin: 0 16px;
     color: #993;
   }
   .seed {
     font-family: "Courier New", Courier, monospace;
+  }
+
+  .high-score {
+    color: #ccc;
+  }
+  .new-high-score {
+    color: #393;
   }
 </style>

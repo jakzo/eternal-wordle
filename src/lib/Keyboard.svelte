@@ -152,6 +152,7 @@
     flex-direction: column;
     overflow: hidden;
     transition: transform ease-in-out 50ms;
+    padding: 1px 0 0 0;
   }
   .key button:hover {
     transform: translateY(-2px);
