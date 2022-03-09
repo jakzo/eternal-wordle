@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import { ALL_WORDS, COMMON_WORDS } from "../words";
-  import { CODE_BACKSPACE, CODE_ENTER } from "../constants";
+  import { AUTOSAVE_KEY, CODE_BACKSPACE, CODE_ENTER } from "../constants";
   import { calculateResults, GuessResult } from "../results";
   import { randStr, seedrandom } from "../utils";
   import Boards from "./Boards.svelte";
@@ -16,7 +16,9 @@
   export let seed: string = randStr(5);
   export let zen: boolean = false;
 
-  let guesses: string[] = [];
+  export let loadedGuesses: string[] | undefined;
+  export let guesses: string[] = [];
+
   let currentGuess = "";
   let focusedBoard: number | undefined;
 
@@ -38,21 +40,34 @@
     .slice(0, wordCount)
     .map<[string, number]>((word) => [word, 0]);
 
-  $: for (const [i, [word, ts]] of words.entries()) {
-    if (ts >= guesses.length) continue;
+  const processLastGuess = (guesses: string[]) => {
+    for (const [i, [word, ts]] of words.entries()) {
+      if (ts >= guesses.length) continue;
 
-    if (
-      calculateResults(word, guesses[guesses.length - 1]).every(
-        (result) => result === GuessResult.CORRECT
-      )
-    ) {
-      words[i] = [pickNextWord(), guesses.length];
-      score += maxGuesses - (guesses.length - 1 - ts);
+      if (
+        calculateResults(word, guesses[guesses.length - 1]).every(
+          (result) => result === GuessResult.CORRECT
+        )
+      ) {
+        words[i] = [pickNextWord(), guesses.length];
+        score += maxGuesses - (guesses.length - 1 - ts);
+      }
+
+      if (!zen && words.some(([, ts]) => guesses.length - ts >= maxGuesses)) {
+        isGameOver = true;
+      }
     }
+  };
 
-    if (!zen && words.some(([, ts]) => guesses.length - ts >= maxGuesses))
-      isGameOver = true;
+  if (loadedGuesses) {
+    for (const guess of loadedGuesses) {
+      guesses.push(guess);
+      processLastGuess(guesses);
+    }
+    guesses = guesses;
   }
+
+  $: processLastGuess(guesses);
 
   const onKeyPress = (keyCode: number) => {
     if (isGameOver) return;

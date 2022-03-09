@@ -1,17 +1,47 @@
 <script lang="ts">
   import Game from "./lib/Game.svelte";
   import { randStr } from "./utils";
+  import { AUTOSAVE_KEY } from "./constants";
 
-  let isStarted = false;
+  interface Autosave {
+    wordCount: number;
+    wordLen: number;
+    maxGuesses: number;
+    seed: string;
+    zen: boolean;
+    guesses: string[];
+  }
 
-  let wordCount = 4;
-  let wordLen = 5;
-  let maxGuesses = wordCount + 5;
-  let seed = randStr(5);
-  let zen = false;
+  const autosave = JSON.parse(
+    localStorage.getItem(AUTOSAVE_KEY) ?? null
+  ) as Autosave | null;
 
-  let score = 0;
+  let isStarted = !!autosave;
+
+  let wordCount = autosave?.wordCount ?? 4;
+  let wordLen = autosave?.wordLen ?? 5;
+  let maxGuesses = autosave?.maxGuesses ?? wordCount + 5;
+  let seed = autosave?.seed ?? randStr(5);
+  let zen = autosave?.zen ?? false;
+
+  let loadedGuesses: string[] | undefined = autosave?.guesses;
+  let guesses: string[];
+  let score: number = 0;
   let isGameOver = false;
+
+  $: if (isStarted)
+    setTimeout(() => {
+      const autosave: Autosave = {
+        wordCount,
+        wordLen,
+        maxGuesses,
+        seed,
+        zen,
+        guesses,
+      };
+      localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(autosave));
+    }, 100);
+  $: if (!isStarted) localStorage.removeItem(AUTOSAVE_KEY);
 </script>
 
 {#if !isStarted}
@@ -53,10 +83,13 @@
     </div>
     <div>
       <label for="zen">Zen mode (no losing):</label>
-      <input type="checkbox" id="zen" bind:value={zen} />
+      <input type="checkbox" id="zen" bind:checked={zen} />
     </div>
     <div>
-      <label for="seed">Word seed (determines order of words):</label>
+      <label for="seed"
+        >Word seed (determines order of words, paste someone else's seed to play
+        the same game as them):</label
+      >
       <input type="text" id="seed" bind:value={seed} />
     </div>
     <div><input type="submit" value="Play!" /></div>
@@ -76,8 +109,10 @@
         isStarted = false;
         score = 0;
         isGameOver = false;
+        seed = randStr(5);
       }}>End game</button
     >
+    <span class="seed-box">Seed: <span class="seed">{seed}</span></span>
   </header>
   <Game
     {wordCount}
@@ -85,7 +120,9 @@
     {maxGuesses}
     {seed}
     {zen}
+    {loadedGuesses}
     bind:score
+    bind:guesses
     bind:isGameOver
   />
 {/if}
@@ -110,5 +147,13 @@
 
   .zen {
     color: #393;
+  }
+
+  .seed-box {
+    margin: 0 16px;
+    color: #993;
+  }
+  .seed {
+    font-family: "Courier New", Courier, monospace;
   }
 </style>
