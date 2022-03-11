@@ -87,7 +87,7 @@
               on:click|preventDefault|stopPropagation={() => onKeyPress(code)}
             >
               <div class="text">{text}</div>
-              {#if Object.prototype.hasOwnProperty.call(histogram.unknown, text)}
+              {#if text in histogram.unknown}
                 <div class="histogram">
                   {#each Object.entries(histogram) as [result, amounts]}
                     <div class={result} style="flex: {amounts[text] ?? 0};" />
@@ -200,6 +200,13 @@
   @media (max-width: 550px) {
     .keyboard {
       border-radius: 0;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .key button {
+      font-size: 24px;
+      height: 40px;
     }
   }
 </style>

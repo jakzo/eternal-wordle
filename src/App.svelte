@@ -1,7 +1,12 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import Game from "./lib/Game.svelte";
   import { randStr } from "./utils";
   import { AUTOSAVE_KEY, HIGHSCORE_KEY } from "./constants";
+
+  onMount(() => {
+    navigator.serviceWorker.register("./assets/service-worker.js");
+  });
 
   interface Autosave {
     wordCount: number;
@@ -59,55 +64,85 @@
 </script>
 
 {#if !isStarted}
-  <article>
-    <h2>How to play</h2>
-    <p>
-      It's <a href="https://www.nytimes.com/games/wordle/index.html">Wordle</a>
-      but with multiple words being guessed simultaneously (like
-      <a href="https://zaratustra.itch.io/dordle">Dordle</a>,
-      <a href="https://quordle.com">Quordle</a>
-      or <a href="https://octordle.com/">Octordle</a>) but also when you guess a
-      word, it is replaced with a new one. The game keeps going until you fail
-      to guess a word.
-    </p>
-  </article>
-  <form
-    on:submit|preventDefault={() => {
-      isStarted = true;
-    }}
-  >
-    <div>
-      <label for="word-count">Number of words to guess simultaneously:</label>
-      <input
-        type="number"
-        id="word-count"
-        bind:value={wordCount}
-        on:change={() => {
-          maxGuesses = wordCount + 5;
+  <div class="menu-container">
+    <div class="menu">
+      <article class="instructions">
+        <h2>How to play</h2>
+        <p>
+          It's <a href="https://www.nytimes.com/games/wordle/index.html"
+            >Wordle</a
+          >
+          but with multiple words being guessed simultaneously (like
+          <a href="https://zaratustra.itch.io/dordle">Dordle</a>,
+          <a href="https://quordle.com">Quordle</a>
+          or <a href="https://octordle.com/">Octordle</a>) but also when you
+          guess a word, it is replaced with a new one. The game keeps going
+          until you fail to guess a word.
+        </p>
+      </article>
+      <form
+        on:submit|preventDefault={() => {
+          isStarted = true;
         }}
-      />
-    </div>
-    <div>
-      <label for="word-len">Length of words to guess:</label>
-      <input type="number" id="word-len" bind:value={wordLen} />
-    </div>
-    <div>
-      <label for="max-guesses">Maximum number of guesses:</label>
-      <input type="number" id="max-guesses" bind:value={maxGuesses} />
-    </div>
-    <div>
-      <label for="zen">Zen mode (no losing):</label>
-      <input type="checkbox" id="zen" bind:checked={zen} />
-    </div>
-    <div>
-      <label for="seed"
-        >Word seed (determines order of words, paste someone else's seed to play
-        the same game as them):</label
       >
-      <input type="text" id="seed" bind:value={seed} />
+        <table>
+          <tr>
+            <td>
+              <label for="word-count"
+                >Number of words to guess simultaneously:</label
+              >
+            </td>
+            <td>
+              <input
+                type="number"
+                id="word-count"
+                bind:value={wordCount}
+                on:change={() => {
+                  maxGuesses = wordCount + 5;
+                }}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="word-len">Length of words to guess:</label>
+            </td>
+            <td>
+              <input type="number" id="word-len" bind:value={wordLen} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="max-guesses">Maximum number of guesses:</label>
+            </td>
+            <td>
+              <input type="number" id="max-guesses" bind:value={maxGuesses} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="zen">Zen mode (no losing):</label>
+            </td>
+            <td>
+              <input type="checkbox" id="zen" bind:checked={zen} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="seed"
+                >Word seed (determines order of words, paste someone else's seed
+                to play the same game as them):</label
+              >
+            </td>
+            <td>
+              <input type="text" id="seed" bind:value={seed} />
+            </td>
+          </tr>
+        </table>
+        <input type="submit" value="Play!" />
+      </form>
     </div>
-    <div><input type="submit" value="Play!" /></div>
-  </form>
+  </div>
 {:else}
   <header class="header">
     <button
@@ -152,6 +187,38 @@
   :root {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    color: #fff;
+  }
+
+  a {
+    color: #c6c;
+  }
+  a:active {
+    color: #a3a;
+  }
+
+  .menu {
+    padding: 8px;
+    max-width: 750px;
+    margin: 0 auto;
+  }
+
+  .menu table {
+    border-spacing: 8px;
+    max-width: 400px;
+  }
+
+  .instructions h2 {
+    margin: 0 0 12px 0;
+  }
+
+  #word-count,
+  #word-len,
+  #max-guesses {
+    width: 32px;
+  }
+  #seed {
+    width: 64px;
   }
 
   .header {

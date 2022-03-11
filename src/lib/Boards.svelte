@@ -82,7 +82,7 @@
             (guesses.length - ts)}{/if}
       </div>
       {#each wordGuesses[i] as [guess, results], j (guesses.length - j)}
-        <div class="row">
+        <div class="row" class:guess-row={!results}>
           {#if j <= guesses.length - ts}
             {#each word as _, k}
               <div
@@ -117,7 +117,7 @@
     margin: 16px;
     display: inline-block;
     box-sizing: border-box;
-    max-width: 100%;
+    max-width: calc(50% - 32px);
     background: rgb(40, 40, 50, 0.8);
     border-radius: 6px;
     transition: transform box-shadow 100ms ease;
@@ -137,14 +137,20 @@
   }
 
   .char {
-    width: 64px;
-    height: 64px;
-    border: 2px solid #999;
+    width: 48px;
+    height: 36px;
     margin: 4px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 40px;
+    font-size: 36px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .guess-row .char {
+    height: 48px;
+    border: 2px solid #999;
   }
 
   .correct {
@@ -166,5 +172,43 @@
 
   .word {
     color: #c33;
+  }
+
+  @media (max-width: 600px) {
+    .boards {
+      margin: 4px;
+    }
+    .board {
+      margin: 8px 4px;
+      max-width: calc(50% - 8px);
+    }
+    .char {
+      font-size: 28px;
+      height: 32px;
+    }
+    .guess-row .char {
+      height: 44px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .char {
+      font-size: 24px;
+      height: 28px;
+    }
+    .guess-row .char {
+      height: 40px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .char {
+      height: 24px;
+      margin: 2px;
+      font-size: 20px;
+    }
+    .guess-row .char {
+      height: 36px;
+    }
   }
 </style>
