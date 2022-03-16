@@ -1,12 +1,7 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import Game from "./lib/Game.svelte";
   import { randStr } from "./utils";
   import { AUTOSAVE_KEY, HIGHSCORE_KEY } from "./constants";
-
-  onMount(() => {
-    navigator.serviceWorker.register("./assets/service-worker.js");
-  });
 
   interface Autosave {
     wordCount: number;
