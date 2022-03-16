@@ -171,7 +171,7 @@
     {maxGuesses}
     {seed}
     {zen}
-    {loadedGuesses}
+    bind:loadedGuesses
     bind:score
     bind:guesses
     bind:isGameOver

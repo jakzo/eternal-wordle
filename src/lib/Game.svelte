@@ -69,6 +69,7 @@
         guesses.push(guess);
         processLastGuess(guesses);
       }
+      loadedGuesses = undefined;
       guesses = guesses;
     }
   });
